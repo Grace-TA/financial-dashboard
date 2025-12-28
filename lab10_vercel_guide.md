@@ -1,64 +1,47 @@
 # Lab 10: Vercel Edition (The Vibe Coding Way) ✨
 
-歡迎來到 **Vibe Coding** 的世界。在原本的 Lab 10 中，我們學習了 "Infrastructure as Code" (Docker + GCP)，這很強大，但也許有點...沈重。
+歡迎來到 **Vibe Coding** 的世界。本指南將帶你體驗最現代化的 "Git Integration" 部署流程。
 
-現在，我們將體驗 **Framework-defined Infrastructure**。我們不再管理容器，而是讓 Vercel 直接理解並託管我們的 Next.js 應用。
-
-## 為什麼選擇 Vercel?
-*   **Zero Config**: 不需要 Dockerfile，不需要 Nginx，不需要手動設定 Port。
-*   **Native Optimization**: 自動處理 Next.js 的 Image Optimization, ISR, Edge Functions。
-*   **Git Integration**: 每次 `git push` 自動部署預覽版 (Preview Deployment)。
+## 流程總覽
+1.  **Git Init**: 在本地端建立儲存庫 (已完成 ✅)。
+2.  **GitHub Push**: 將程式碼推送到 GitHub。
+3.  **Vercel Import**: 讓 Vercel 連接 GitHub 自動部署。
 
 ---
 
 ## 🚀 實作步驟 (Step-by-Step)
 
-### 步驟 1: 準備專案 (Preparation)
-確保你的 `package.json` 包含標準的 Next.js build scripts (我們已經檢查過了 ✅)。
+### 步驟 1: 推送到 GitHub (Push to GitHub)
+由於你的電腦未安裝 GitHub CLI (`gh`)，請依照以下步驟手動操作：
 
-### 步驟 2: 初始化 Git (Git Init)
-我們將程式碼提交到版本控制系統。
+1.  開啟瀏覽器，登入 **GitHub**。
+2.  點擊右上角 **+** -> **New repository**。
+3.  Repository name 輸入: `financial-dashboard`。
+4.  設定為 **Public** 或 **Private** (皆可)。
+5.  點擊 **Create repository**。
+6.  **重要**: 複製 "…or push an existing repository from the command line" 下方的指令。它看起來像這樣：
+    ```bash
+    git remote add origin https://github.com/[YOUR_USERNAME]/financial-dashboard.git
+    git branch -M main
+    git push -u origin main
+    ```
+7.  回到 VS Code Terminal，貼上並執行這些指令。
 
-```bash
-cd financial-dashboard
-git init
-git add .
-git commit -m "Initial commit for Vercel deployment"
-```
+### 步驟 2: Vercel 導入 (Import Project)
+1.  前往 [Vercel Dashboard](https://vercel.com/dashboard)。
+2.  點擊 **Add New...** -> **Project**。
+3.  在 "Import Git Repository" 列表中，你應該會看到剛剛推送的 `financial-dashboard`。
+4.  點擊 **Import**。
+5.  所有設定保持預設 (Framework Preset: Next.js)。
+6.  點擊 **Deploy**。
 
-### 步驟 3: 部署到 Vercel (The Vibe Deploy)
-我們使用剛剛安裝的 Vercel CLI 直接部署。
-
-```bash
-vercel login
-# 選擇你的登入方式 (GitHub/GitLab/Email)
-```
-
-登入成功後，直接執行：
-
-```bash
-vercel
-```
-
-接下來只需一路按 **Enter** (使用預設值)：
-1.  Set up and deploy? **[Y]**
-2.  Which scope? **[Your Name]**
-3.  Link to existing project? **[N]**
-4.  Project Name? **[financial-dashboard]**
-5.  Directory? **[./]**
-6.  Build Settings? **[Default]** (自動偵測 Next.js)
-
-### 步驟 4: 享受成果 (Enjoy)
-部署完成後，你會獲得一個 `https://financial-dashboard-xxx.vercel.app` 的網址。
-這就是 Vibe Coding 的速度！🚀
+### 步驟 3: 享受成果 (Enjoy)
+Vercel 會自動建置你的網站，完成後你會獲得一個永久的 `https://....vercel.app` 網址。
+以後只要除了 `git push`，Vercel 就會自動更新網站！🚀
 
 ---
 
-## 💡 比較 (Comparison)
-
-| 特性 | Google Cloud Run (Docker) | Vercel (Native) |
-| :--- | :--- | :--- |
-| **配置難度** | 高 (Dockerfile, IAM, Billing) | 低 (0 Config) |
-| **可攜性** | 高 (任何支援 Docker 的雲端) | 中 (綁定 Vercel 平台特性) |
-| **用途** | 複雜微服務, 企業級架構 | 前端與全端 Next.js 應用 |
-| **Vibe** | 🐢 Heavy Engineering | 🐇 Vibe Coding |
+## 💡 為什麼這樣做? (Why Git Integration?)
+*   **CI/CD**: 每次 Commit 都會自動觸發部署。
+*   **Preview**: 開新 Branch 時，Vercel 會自動產生預覽網址。
+*   **Collaboration**: 團隊成員只需 Push 程式碼，不需要懂部署指令。
